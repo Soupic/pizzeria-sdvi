@@ -30,6 +30,7 @@ class Pizza
 
     /**
      * @var Collection
+     * @ORM\OneToMany(targetEntity="App\Entity\ingredientPizza", mappedBy="ingredientPizza")
      */
     private $quantiteIngredients;
 
