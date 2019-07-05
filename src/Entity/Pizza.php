@@ -30,7 +30,11 @@ class Pizza
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\ingredientPizza", mappedBy="ingredientPizza")
+     * @ORM\ManyToMany(targetEntity="IngredientPizza")
+     * @ORM\JoinTable(name="igredient_pizza",
+     *      joinColumns ={@ORM\JoinColumn(name="pizza_id", referencedColumnName="id_pizza")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="ingredient_pizza_id", referencedColumnName="id_ingredient_pizza")}
+     * )
      */
     private $quantiteIngredients;
 

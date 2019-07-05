@@ -8,6 +8,7 @@ use App\Service\Dao\PizzaDao;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\IngredientPizza;
 
 /**
  * Class PizzaController
@@ -38,8 +39,32 @@ class PizzaController extends AbstractController
      * )
      * @return Response
      */
-    public function detailAction(int $pizzaId): Response
+    public function detailAction(PizzaDao $pizzaDao, int $pizzaId): Response
     {
-        return $this->render("Pizza/detail.html.twig");
+        // Appel du Dao pour récupéré la pizza cliqué
+        $pizza = $pizzaDao->getDetailPizza($pizzaId);
+
+        // init du compteur de prix
+        $prixPizza = 0;
+        // Boucle pour récupéré les ingrédients qui compose la pizza
+        $nomIngredientPizza = [];
+        foreach ($pizza->getQuantiteIngredients() as $ingredientPizza) {
+            // Récupération de la quantité d'ingrédient
+            $quantiteIngredient = $ingredientPizza->getQuantite();
+            // Convertion en kilo gramme
+            $ingredientKilo = IngredientPizza::convertirGrammeEnKilo($quantiteIngredient);
+            // Prix de la pizza
+            $prixPizza = $prixPizza + ($ingredientPizza->getIngredient()->getCout() * $ingredientKilo);
+            $nomIngredientsPizza[] = $ingredientPizza->getIngredient()->getNom();
+        };
+        // Fonction pour arrondir le prix de la pizza
+        $prixPizza = round($prixPizza, 2);
+        dump($pizza->getQuantiteIngredients());
+
+        return $this->render("Pizza/detail.html.twig", [
+            "pizza" => $pizza,
+            "prix" => $prixPizza,
+            "nomIngredients" => $nomIngredientsPizza,
+        ]);
     }
 }
