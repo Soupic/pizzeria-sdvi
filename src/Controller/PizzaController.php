@@ -47,6 +47,7 @@ class PizzaController extends AbstractController
         // init du compteur de prix
         $prixPizza = 0;
         // Boucle pour récupéré les ingrédients qui compose la pizza
+        $nomIngredientPizza = [];
         foreach ($pizza->getQuantiteIngredients() as $ingredientPizza) {
             // Récupération de la quantité d'ingrédient
             $quantiteIngredient = $ingredientPizza->getQuantite();
@@ -54,13 +55,16 @@ class PizzaController extends AbstractController
             $ingredientKilo = IngredientPizza::convertirGrammeEnKilo($quantiteIngredient);
             // Prix de la pizza
             $prixPizza = $prixPizza + ($ingredientPizza->getIngredient()->getCout() * $ingredientKilo);
+            $nomIngredientsPizza[] = $ingredientPizza->getIngredient()->getNom();
         };
         // Fonction pour arrondir le prix de la pizza
         $prixPizza = round($prixPizza, 2);
+        dump($pizza->getQuantiteIngredients());
 
         return $this->render("Pizza/detail.html.twig", [
             "pizza" => $pizza,
             "prix" => $prixPizza,
+            "nomIngredients" => $nomIngredientsPizza,
         ]);
     }
 }
