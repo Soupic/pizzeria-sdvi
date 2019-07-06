@@ -51,7 +51,7 @@ class PizzaController extends AbstractController
         foreach ($pizza->getQuantiteIngredients() as $ingredientPizza) {
             // Récupération de la quantité d'ingrédient
             $quantiteIngredient = $ingredientPizza->getQuantite();
-            $prixPizza += $prix->calculePrixPizza( $quantiteIngredient, $ingredientPizza->getIngredient()->getCout());
+            $prixPizza += $prix->calculePrixFabricationPizza( $quantiteIngredient, $ingredientPizza->getIngredient()->getCout());
             $nomIngredientsPizza[] = $ingredientPizza->getIngredient()->getNom();
         };
 

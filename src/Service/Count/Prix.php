@@ -6,7 +6,7 @@ use App\Entity\IngredientPizza;
 
 class Prix
 {
-    public function calculePrixPizza(float $quantiteIngredient, float $cout)
+    public function calculePrixFabricationPizza(float $quantiteIngredient, float $cout)
     {
         // init du compteur de prix
         $prixPizza = 0;
