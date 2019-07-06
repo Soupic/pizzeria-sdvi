@@ -9,6 +9,7 @@ use App\Service\Dao\PizzeriaDao;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\Count\Prix;
 
 /**
  * Class PizzeriaController
@@ -39,14 +40,27 @@ class PizzeriaController extends AbstractController
      * )
      * @return Response
      */
-    public function detailAction(int $pizzeriaId, PizzeriaDao $pizzeriaDao): Response
-    {
+    public function detailAction(int $pizzeriaId, PizzeriaDao $pizzeriaDao, Prix $cout): Response
+    {   
+        // Appel du DAO pour récupéré la carte de la pizzeria
         $pizzeriaCarte = $pizzeriaDao->getCartePizzeria($pizzeriaId);
 
-        dump( $pizzeriaCarte);
+        $pizzas = $pizzeriaCarte->getPizzas();
+        $prixPizza = 0;
+        $listePizza = [];
+        foreach ($pizzas as $pizza) {
+            $ingredients = $pizza->getQuantiteIngredients();
+            foreach ($ingredients as $ingredient) {
+                $quantiteIngredient = $ingredient->getQuantite();
+            }
+            $prixPizza += $cout->calculePrixPizza($quantiteIngredient, $ingredient->getIngredient()->getCout());
+            $prix = $prixPizza + $pizzeriaCarte->getMarge();
+            $listePizza[] = [$pizza->getNom(), $prix];
+        }
 
         return $this->render("Pizzeria/carte.html.twig", [
             "pizzeria" => $pizzeriaCarte,
+            "liste_pizza" => $listePizza,
         ]);
     }
 }

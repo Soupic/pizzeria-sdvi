@@ -7,9 +7,9 @@
 {% endblock %}
 
 {% block body %}
-   {{ dump(pizzeria) }}
    <p>Mage : {{ pizzeria.marge }}</p>
-   {% for pizza in pizzeria.pizzas %}
-        <p>{{ pizza.nom }}</p>
+   {% for pizza in liste_pizza %}
+   {# {{ dump(pizza.0) }} #}
+        <p>{{ pizza.0 }} prix : {{ pizza.1 }}€</p>
    {% endfor %}
 {% endblock %}

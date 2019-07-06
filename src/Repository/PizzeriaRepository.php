@@ -41,13 +41,14 @@ class PizzeriaRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder("p");
 
         $qb
-            ->addSelect("piz")
-            ->innerJoin("p.pizzas", "piz")
+            ->addSelect(["piz", "qte", "ing"])
+            ->innerJoin( "p.pizzas", "piz")
+            ->innerJoin( "piz.quantiteIngredients", "qte")
+            ->innerJoin( "qte.ingredient", "ing")
             ->where( "p.id = :idPizzeria")
             ->setParameter("idPizzeria", $pizzeriaId)
         ;
 
-        dump($qb);
         return $qb->getQuery()->getSingleResult();
     }
 }
