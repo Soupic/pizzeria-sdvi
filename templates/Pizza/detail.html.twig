@@ -6,10 +6,14 @@
 {% block titrePage %}<p>La pizza {{ pizza.nom }}</p>{% endblock %}
 
 {% block body %}
-    <p>Le prix de fabrication : {{ prix }} €</p>
+    {% set ingredientsPizza = pizza.quantiteIngredients %}
+    <p>Le prix de fabrication : {{ pizza.prixPizza }} €</p>
     <p>ingredients :
-        {% for nomIngredient in nomIngredients %}
-            {{ nomIngredient }},
+        {% for ingredientPizza in ingredientsPizza %}
+            {{ ingredientPizza.ingredient.nom }},
+            {% if loop.last %}
+                {{ ingredientPizza.ingredient.nom }}
+            {% endif %}
         {% endfor %}
     </p>
 {% endblock %}

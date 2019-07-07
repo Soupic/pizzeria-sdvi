@@ -39,6 +39,13 @@ class Pizza
     private $quantiteIngredients;
 
     /**
+     * Undocumented variable
+     *
+     * @var int
+     */
+    private $prixPizza;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -109,5 +116,24 @@ class Pizza
     public function getQuantiteIngredients(): Collection
     {
         return $this->quantiteIngredients;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrixPizza(): float
+    {
+        return $this->prixPizza;
+    }
+
+    /**
+     * @param float $prixPizza
+     * @return Pizza
+     */
+    public function setPrixPizza(float $prixPizza): Pizza
+    {
+        $this->prixPizza = $prixPizza;
+
+        return $this;
     }
 }

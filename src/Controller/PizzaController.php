@@ -8,7 +8,7 @@ use App\Service\Dao\PizzaDao;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\Count\Prix;
+use App\Service\Count\PizzaService;
 
 /**
  * Class PizzaController
@@ -39,26 +39,19 @@ class PizzaController extends AbstractController
      * )
      * @return Response
      */
-    public function detailAction(PizzaDao $pizzaDao, int $pizzaId, Prix $prix): Response
+    public function detailAction(
+        PizzaDao        $pizzaDao,
+        int             $pizzaId,
+        PizzaService    $prix
+        ): Response
     {
         // Appel du Dao pour récupéré la pizza cliqué
         $pizza = $pizzaDao->getDetailPizza($pizzaId);
 
-        // init du compteur de prix
-        $prixPizza = 0;
-        // Boucle pour récupéré les ingrédients qui compose la pizza
-        $nomIngredientPizza = [];
-        foreach ($pizza->getQuantiteIngredients() as $ingredientPizza) {
-            // Récupération de la quantité d'ingrédient
-            $quantiteIngredient = $ingredientPizza->getQuantite();
-            $prixPizza += $prix->calculePrixFabricationPizza( $quantiteIngredient, $ingredientPizza->getIngredient()->getCout());
-            $nomIngredientsPizza[] = $ingredientPizza->getIngredient()->getNom();
-        };
+        $prix->calculerPrixPizza($pizza);
 
         return $this->render("Pizza/detail.html.twig", [
             "pizza" => $pizza,
-            "prix" => $prixPizza,
-            "nomIngredients" => $nomIngredientsPizza,
         ]);
     }
 }
