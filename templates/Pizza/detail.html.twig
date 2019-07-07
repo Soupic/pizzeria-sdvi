@@ -11,6 +11,9 @@
     <p>ingredients :
         {% for ingredientPizza in ingredientsPizza %}
             {{ ingredientPizza.ingredient.nom }},
+            {% if loop.last %}
+            {{ ingredientPizza.ingredient.nom }}
+            {% endif %}
         {% endfor %}
     </p>
 {% endblock %}

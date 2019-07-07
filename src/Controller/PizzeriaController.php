@@ -59,7 +59,7 @@ class PizzeriaController extends AbstractController
             $prixPizza = $prixFabrication + $margePizzeria;
             $pizza->setPrixPizza($prixPizza);
         }
-        
+    
 
         return $this->render("Pizzeria/carte.html.twig", [
             "pizzeria" => $pizzeriaCarte,
