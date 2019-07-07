@@ -3,20 +3,32 @@
 namespace App\Service\Count;
 
 use App\Entity\IngredientPizza;
+use App\Entity\Pizza;
+use App\Entity\Pizzeria;
 
 class Prix
 {
-    public function calculePrixFabricationPizza(float $quantiteIngredient, float $cout)
+    /**
+     * @param Pizza $pizza
+     * @param Pizzeria $pizzeria
+     * @return void
+     */
+    public function calculerPrixPizza(Pizza $pizza, Pizzeria $pizzeria)
     {
-        // init du compteur de prix
-        $prixPizza = 0;
-        // Convertion en kilo gramme
-        $ingredientKilo = IngredientPizza::convertirGrammeEnKilo($quantiteIngredient);
-        // Prix de la pizza
-        $prixPizza = $prixPizza + ($cout * $ingredientKilo);
-        // Fonction pour arrondir le prix de la pizza
-        $prixPizza = round($prixPizza, 2);
+        $marge = $pizzeria->getMarge();
+        $ingredientsPizza = $pizza->getQuantiteIngredients();
+        $prixFabrication = 0;
 
-        return $prixPizza;
+        foreach ($ingredientsPizza as $ingredientPizza) {
+            $quantiteIngredient = $ingredientPizza->getQuantite();
+            $ingredientKilo = IngredientPizza::convertirGrammeEnKilo($quantiteIngredient);
+            $coutIngredient = $ingredientPizza->getIngredient()->getCout();
+
+            $prixFabrication += $ingredientKilo * $coutIngredient;
+        }
+
+        $prixPizza = round( $prixFabrication + $marge, 2);
+
+        $pizza->setPrixPizza($prixPizza);
     }
 }

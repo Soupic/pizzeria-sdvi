@@ -47,7 +47,6 @@ class PizzaController extends AbstractController
         // init du compteur de prix
         $prixPizza = 0;
         // Boucle pour récupéré les ingrédients qui compose la pizza
-        $nomIngredientPizza = [];
         foreach ($pizza->getQuantiteIngredients() as $ingredientPizza) {
             // Récupération de la quantité d'ingrédient
             $quantiteIngredient = $ingredientPizza->getQuantite();
