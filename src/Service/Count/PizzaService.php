@@ -5,7 +5,7 @@ namespace App\Service\Count;
 use App\Entity\IngredientPizza;
 use App\Entity\Pizza;
 
-class Prix
+class PizzaService
 {
     /**
      * @param Pizza $pizza

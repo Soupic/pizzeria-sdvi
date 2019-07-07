@@ -12,7 +12,7 @@
         {% for ingredientPizza in ingredientsPizza %}
             {{ ingredientPizza.ingredient.nom }},
             {% if loop.last %}
-            {{ ingredientPizza.ingredient.nom }}
+                {{ ingredientPizza.ingredient.nom }}
             {% endif %}
         {% endfor %}
     </p>

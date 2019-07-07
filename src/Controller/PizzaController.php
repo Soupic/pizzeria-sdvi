@@ -8,7 +8,7 @@ use App\Service\Dao\PizzaDao;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\Count\Prix;
+use App\Service\Count\PizzaService;
 
 /**
  * Class PizzaController
@@ -39,7 +39,7 @@ class PizzaController extends AbstractController
      * )
      * @return Response
      */
-    public function detailAction(PizzaDao $pizzaDao, int $pizzaId, Prix $prix): Response
+    public function detailAction(PizzaDao $pizzaDao, int $pizzaId, PizzaService $prix): Response
     {
         // Appel du Dao pour récupéré la pizza cliqué
         $pizza = $pizzaDao->getDetailPizza($pizzaId);
