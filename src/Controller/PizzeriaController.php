@@ -40,16 +40,26 @@ class PizzeriaController extends AbstractController
      * )
      * @return Response
      */
-    public function detailAction(int $pizzeriaId, PizzeriaDao $pizzeriaDao, Prix $cout): Response
+    public function detailAction(
+        int $pizzeriaId,
+        PizzeriaDao $pizzeriaDao,
+        Prix $cout
+        ): Response
     {   
         // Appel du DAO pour récupéré la carte de la pizzeria
         $pizzeriaCarte = $pizzeriaDao->getCartePizzeria($pizzeriaId);
+        // Récupération de la marge de la pizzeria
+        $margePizzeria = $pizzeriaCarte->getMarge();
         // Récupération de la carte de la pizzeria
         $pizzas = $pizzeriaCarte->getPizzas();
         // Parcours des pizzas
         foreach ($pizzas as $pizza) {
-            $cout->calculerPrixPizza($pizza, $pizzeriaCarte);
+            $cout->calculerPrixPizza($pizza);
+            $prixFabrication = $pizza->getPrixPizza();
+            $prixPizza = $prixFabrication + $margePizzeria;
+            $pizza->setPrixPizza($prixPizza);
         }
+        
 
         return $this->render("Pizzeria/carte.html.twig", [
             "pizzeria" => $pizzeriaCarte,

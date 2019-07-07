@@ -44,20 +44,10 @@ class PizzaController extends AbstractController
         // Appel du Dao pour récupéré la pizza cliqué
         $pizza = $pizzaDao->getDetailPizza($pizzaId);
 
-        // init du compteur de prix
-        $prixPizza = 0;
-        // Boucle pour récupéré les ingrédients qui compose la pizza
-        foreach ($pizza->getQuantiteIngredients() as $ingredientPizza) {
-            // Récupération de la quantité d'ingrédient
-            $quantiteIngredient = $ingredientPizza->getQuantite();
-            $prixPizza += $prix->calculePrixFabricationPizza( $quantiteIngredient, $ingredientPizza->getIngredient()->getCout());
-            $nomIngredientsPizza[] = $ingredientPizza->getIngredient()->getNom();
-        };
+        $prix->calculerPrixPizza($pizza);
 
         return $this->render("Pizza/detail.html.twig", [
             "pizza" => $pizza,
-            "prix" => $prixPizza,
-            "nomIngredients" => $nomIngredientsPizza,
         ]);
     }
 }

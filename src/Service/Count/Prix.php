@@ -4,18 +4,15 @@ namespace App\Service\Count;
 
 use App\Entity\IngredientPizza;
 use App\Entity\Pizza;
-use App\Entity\Pizzeria;
 
 class Prix
 {
     /**
      * @param Pizza $pizza
-     * @param Pizzeria $pizzeria
      * @return void
      */
-    public function calculerPrixPizza(Pizza $pizza, Pizzeria $pizzeria)
+    public function calculerPrixPizza(Pizza $pizza)
     {
-        $marge = $pizzeria->getMarge();
         $ingredientsPizza = $pizza->getQuantiteIngredients();
         $prixFabrication = 0;
 
@@ -25,10 +22,9 @@ class Prix
             $coutIngredient = $ingredientPizza->getIngredient()->getCout();
 
             $prixFabrication += $ingredientKilo * $coutIngredient;
+            $prixFabrication = round($prixFabrication, 2);
         }
 
-        $prixPizza = round( $prixFabrication + $marge, 2);
-
-        $pizza->setPrixPizza($prixPizza);
+        $pizza->setPrixPizza($prixFabrication);
     }
 }
