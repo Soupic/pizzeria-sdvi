@@ -41,9 +41,9 @@ class PizzeriaController extends AbstractController
      * @return Response
      */
     public function detailAction(
-        int $pizzeriaId,
-        PizzeriaDao $pizzeriaDao,
-        PizzaService $cout
+        int             $pizzeriaId,
+        PizzeriaDao     $pizzeriaDao,
+        PizzaService    $cout
         ): Response
     {   
         // Appel du DAO pour récupéré la carte de la pizzeria

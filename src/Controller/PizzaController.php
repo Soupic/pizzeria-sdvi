@@ -39,7 +39,11 @@ class PizzaController extends AbstractController
      * )
      * @return Response
      */
-    public function detailAction(PizzaDao $pizzaDao, int $pizzaId, PizzaService $prix): Response
+    public function detailAction(
+        PizzaDao        $pizzaDao,
+        int             $pizzaId,
+        PizzaService    $prix
+        ): Response
     {
         // Appel du Dao pour récupéré la pizza cliqué
         $pizza = $pizzaDao->getDetailPizza($pizzaId);
